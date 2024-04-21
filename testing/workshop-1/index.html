@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>reveal.js</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/moon.css">
+
+
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+        <section><h1>Testing</h1></section>
+
+				<section>
+            <h2>Testing is just a tool</h2>
+            <hr>
+            <h3 class="fragment fade-up">Not a cult</h3>
+        </section>
+
+				<section>
+            <h2>Why should we test code ?</h2>
+        </section>
+
+				<section>
+            <h2>To increase</h2>
+            <hr>
+            <h3 class="fragment fade-up" >quality</h3>
+            <h3 class="fragment fade-up" >confidence</h3>
+            <h3 class="fragment fade-up" >velocity</h3>
+        </section>
+
+				<section>
+            <h2>The way you can test</h2>
+            <hr>
+            <h3 class="fragment fade-up">Manual</h3>
+            <h3 class="fragment fade-up">Semi automated</h3>
+            <h3 class="fragment fade-up">Fully automated</h3>
+        </section>
+
+				<section>
+            <h2>Types of tests</h2>
+            <hr>
+            <h3 class="fragment fade-up" >Unit</h3>
+            <h3 class="fragment fade-up" >Integration</h3>
+            <h3 class="fragment fade-up" >End to End</h3>
+        </section>
+
+				<section>
+            <h2>How to test</h2>
+            <hr>
+            <h3 class="fragment fade-up" >Testing should be simple</h3>
+        </section>
+
+				<section>
+            <h2>The AAA of testing</h2>
+            <hr>
+            <h3 class="fragment fade-up" >Arrange</h3>
+            <h3 class="fragment fade-up" >Act</h3>
+            <h3 class="fragment fade-up" >Assert</h3>
+        </section>
+
+        <section data-markdown>
+          <textarea data-template>
+            ## the simplest of tests in JavaScript
+            ```javascript
+            const assert = require('assert');
+
+            // Arrange
+            let value = 1;
+
+            // Act
+            value = value + 2;
+
+            // Assert
+            assert(value === 4);
+            ```
+          </textarea>
+        </section>
+
+        <section data-markdown>
+          <textarea data-template>
+            ### Result of when it fails
+            ```shell
+            node:assert:400
+                throw err;
+                ^
+            AssertionError [ERR_ASSERTION]: The expression evaluated 
+            to a falsy value:
+
+              assert(value === 4)
+
+                at Object.<anonymous> (/Users/user/code/test.js:4:1)
+                ...
+                at node:internal/main/run_main_module:23:47 {
+              generatedMessage: true,
+              code: 'ERR_ASSERTION',
+              actual: false,
+              expected: true,
+              operator: '=='
+            }
+            ```
+          </textarea>
+        </section>
+
+        <section data-markdown>
+          <textarea data-template>
+
+            ### Result of when it succeeds
+            ```shell
+            node test.js; echo "exit code $?"
+            exit code 0
+            ```
+          </textarea>
+        </section>
+
+        <section data-markdown>
+          <textarea data-template>
+            ## A simple Jasmine test
+            ```javascript
+            import { describe, expect, test } from '@jest/globals';
+
+            import { sum } from '../src/sum';
+
+            describe('sum module', () => {
+              test('adds 1 + 2 to equal 3', () => {
+                expect(sum(1, 2)).toBe(4);
+              });
+            });
+            ```
+          </textarea>
+        </section>
+
+        <section data-markdown>
+          <textarea data-template>
+            ```shell
+            FAIL  tests/sum.test.ts
+              sum module
+                ✕ adds 1 + 2 to equal 3 (4 ms)
+
+              ● sum module › adds 1 + 2 to equal 3
+
+                expect(received).toBe(expected) // Object.is equality
+
+                Expected: 4
+                Received: 3
+
+                   5 | describe('sum module', () => {
+                   6 |   test('adds 1 + 2 to equal 3', () => {
+                >  7 |     expect(sum(1, 2)).toBe(4);
+                     |                       ^
+                   8 |   });
+                   9 | });
+                  10 |
+
+                  at Object.<anonymous> (tests/sum.test.ts:7:23)
+
+            Test Suites: 1 failed, 1 total
+            Tests:       1 failed, 1 total
+            Snapshots:   0 total
+            Time:        1.371 s, estimated 2 s
+            Ran all test suites.
+            error Command failed with exit code 1.
+            info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
+            ```
+          </textarea>
+        </section>
+
+        <section data-markdown>
+          <textarea data-template>
+            ## A simple pytest test for Python
+            ```python
+            def sum(a, b):
+                return a + b
+
+
+            def test_sum():
+                assert sum(1, 2) == 4
+            ```
+
+          </textarea>
+        </section>
+
+        <section data-markdown>
+          <textarea data-template>
+
+            ```shell
+            =============== test session starts ================
+            platform darwin -- Python 3.12.0, pytest-8.1.1, pluggy-1.4.0
+            rootdir: /Users/agirorn/code/testbeds/python/unit-testing/pytest
+            collected 1 item
+
+            test_sum.py F                                [100%]
+
+            ===================== FAILURES =====================
+            _____________________ test_sum _____________________
+
+                def test_sum():
+            >       assert sum(1, 2) == 4
+            E       assert 3 == 4
+            E        +  where 3 = sum(1, 2)
+
+            test_sum.py:6: AssertionError
+            ============= short test summary info ==============
+            FAILED test_sum.py::test_sum - assert 3 == 4
+            ================ 1 failed in 0.03s =================
+            make: *** [test] Error 1
+            ```
+
+          </textarea>
+        </section>
+
+				<section>
+            <h2>Integration tests</h2>
+        </section>
+
+
+				<section>
+            <h2>The SAAAT of integration testing</h2>
+            <hr>
+            <h3 class="fragment fade-up" >Setup</h3>
+            <h3 class="fragment fade-up" >Arrange</h3>
+            <h3 class="fragment fade-up" >Act</h3>
+            <h3 class="fragment fade-up" >Assert</h3>
+            <h3 class="fragment fade-up" >Teardown</h3>
+        </section>
+
+        <section data-markdown>
+          <textarea data-template>
+            ## Jasmine integration test
+            ```javascript
+            import {
+              describe, expect, test, beforeEach, afterach
+            } from '@jest/globals';
+            import { setupDatabase, removeDatabase } from './tools';
+            import { insertIntoDb, readFromDb } from '../src/sum';
+
+            beforeEach(async () => { await setupDatabase(); });
+            afterEach(async () => { await removeDatabase(); });
+
+            describe('data access functions', () => {
+              test('read and write to and from the database', () => {
+                await insertIntoDb(4);
+                expect(await readFromDb()).toBe(4);
+              });
+            });
+            ```
+          </textarea>
+        </section>
+
+
+				<section>
+            <h2>Mocking</h2>
+        </section>
+
+				<section>
+          <h2>Mockist vs Classical</H2>
+          <hr>
+          <p><a href="https://medium.com/@adrianbooth/test-driven-development-wars-detroit-vs-london-classicist-vs-mockist-9956c78ae95f">
+            Test Driven Development Wars: Detroit vs London, Classicist vs Mockist
+          </a></p>
+        </section>
+
+				<section>
+          <h2>Automation</h2>
+          <hr>
+          <h3 class="fragment fade-up">fast feedback</h3>
+        </section>
+
+				<section>
+          <h2>Tools</h2>
+          <hr>
+          <h3><a class="fragment fade-up" href="https://github.com/agirorn/yardman">Yardman</a></h3>
+          <h3><a class="fragment fade-up" href="https://nodemon.io/">nodemon</a></h3>
+          <h3><a class="fragment fade-up" href="https://crates.io/crates/cargo-watch">cargo watch</a></h3>
+        </section>
+
+        <section><h2>Demo</h2></section>
+        <section>
+          <h2>Hands on Workshop</h2>
+          <hr>
+          <h3 class="fragment fade-up" >have fun</h3>
+        </section>
+			</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+		</script>
+	</body>
+</html>
