@@ -2,6 +2,10 @@
 setup:
 	pnpm install
 
+.PHONY: start
+start:
+	make dev
+
 .PHONY: dev
 dev:
 	 make open-slow &

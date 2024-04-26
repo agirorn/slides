@@ -6,6 +6,10 @@
 make setup
 ```
 
+## start
+
+Starts the slideshow fr presentation and opens them in the browser
+
 ## dev
 
 Starts up a web-server that live-reload the slides and you can start tinkering
